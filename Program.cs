@@ -228,7 +228,7 @@ internal class Program
             Console.Write($"- CommandLineArg: ");
             if (arguments == null || arguments.Length == 0)
             {
-                Console.Write("none given");
+                Console.WriteLine("none given");
             }
             else
             {
@@ -236,6 +236,7 @@ internal class Program
                 {
                     Console.Write($"{arg}; ");
                 }
+                Console.WriteLine();
             }
             Console.WriteLine($"- ProcessId: {Environment.ProcessId}\n" +
                 $"- IsPrivilegedProcess: {Environment.IsPrivilegedProcess}\n" +
