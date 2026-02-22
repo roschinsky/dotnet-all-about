@@ -73,6 +73,9 @@ internal class Program
                         case "--help":
                             Console.WriteLine("Visit https://github.com/roschinsky/dotnet-all-about for more information.");
                             break;
+                        default:
+                            Console.WriteLine($"Invalid parameter '{args[i]}' at position {i}.");
+                            break;
                     }
                 }
             }
