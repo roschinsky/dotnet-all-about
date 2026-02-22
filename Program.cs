@@ -71,8 +71,18 @@ internal class Program
                         case "-?":
                         case "-h":
                         case "--help":
-                            Console.WriteLine("Visit https://github.com/roschinsky/dotnet-all-about for more information.");
-                            break;
+                            Console.WriteLine("If command line parameters are specified, they are evaluated to select individual feature blocks for output. Otherwise, all feature blocks are considered for evaluation.  ");
+                            Console.WriteLine("   -n; --show-network:    available network adapters, type and IPs  ");
+                            Console.WriteLine("   -f; --show-filesystem: available drives/mounts, format and storage space  ");
+                            Console.WriteLine("   -a; --show-app:        info about working folder, process, etc.  ");
+                            Console.WriteLine("   -r; --show-runtime:    runs on which platform, CPU, architecture and OS  ");
+                            Console.WriteLine("   -c; --show-console:    info about terminal properties  ");
+                            Console.WriteLine("   -i; --show-console-io: info about terminal input and output  ");
+                            Console.WriteLine("   -e; --show-env:        prints all environment variables  ");
+                            Console.WriteLine("   -?; -h; --help:        guess what ¯\\_(ツ)_/¯  ");
+                            Console.WriteLine("Visit https://github.com/roschinsky/dotnet-all-about for more information.  ");
+                            return;
+
                         default:
                             Console.WriteLine($"Invalid parameter '{args[i]}' at position {i}.");
                             break;
