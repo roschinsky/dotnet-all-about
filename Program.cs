@@ -44,7 +44,6 @@ internal class Program
             NetworkInterface[] adapters  = NetworkInterface.GetAllNetworkInterfaces();
             foreach (NetworkInterface adapter in adapters)
             {
-
                 IPInterfaceProperties adapterProperties = adapter.GetIPProperties();
                 IPAddressCollection dnsServers = adapterProperties.DnsAddresses;
                 if (dnsServers.Count > 0)
@@ -54,7 +53,6 @@ internal class Program
                     {
                         Console.WriteLine($"   - Address: {adapter.GetIPProperties().UnicastAddresses[0].Address}");
                     }
-                    Console.WriteLine();
                 }
             }
         }
