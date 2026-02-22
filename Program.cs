@@ -6,29 +6,93 @@ using System.Runtime.InteropServices;
 
 namespace TRoschinsky.DotnetAllAbout.App;
 
+/// <summary>
+/// A simple console application that you can use in your CLI, 
+/// in a container, or elsewhere to get all the information you 
+/// want about your Dotnet assembly and environment.
+/// </summary>
 internal class Program
 {
+    private static bool showNetwork;
+    private static bool showFileSystem;
+    private static bool showApp;
+    private static bool showRuntime;
+    private static bool showConsole;
+    private static bool showInOut;
+    private static bool showEnv;
+
     /// <summary>
-    /// A simple console application that you can use in your CLI, 
-    /// in a container, or elsewhere to get all the information you 
-    /// want about your Dotnet assembly and environment.
+    /// Main
     /// </summary>
     /// <param name="args">Command line parameters</param>
     private static void Main(string[] args)
     {
-        Console.WriteLine("# Dotnet All About");
-        Console.WriteLine("More information at https://github.com/roschinsky/dotnet-all-about.  ");
+        Console.WriteLine("# Dotnet: All About (...your running dotnet assembly)");
         Console.WriteLine("-------------------------------------------------------------------  ");
 
         try
         {
-            ShowRuntimeInfo();
-            ShowAppInfo(args);
-            ShowFileSystemInfo();
-            ShowNetworkInfo();
-            ShowEnvironmentVars();
-            ShowConsoleInfo();
-            ShowConsoleIO();
+            // Read args and set desired features
+            if (args != null && args.Length > 0)
+            {
+                for (int i = 0; i < args.Length; i++)
+                {
+                    if (String.Concat(args[i]).Contains("/bin/")) { throw new ArgumentException("The expression '/bin/' was found in one of your arguments."); }
+                    switch (args[i].Trim().ToLower())
+                    {
+                        case "-n":
+                        case "--show-network":
+                            showNetwork = true;
+                            break;
+                        case "-f":
+                        case "--show-filesystem":
+                            showFileSystem = true;
+                            break;
+                        case "-a":
+                        case "--show-app":
+                            showApp = true;
+                            break;
+                        case "-r":
+                        case "--show-runtime":
+                            showRuntime = true;
+                            break;
+                        case "-c":
+                        case "--show-console":
+                            showConsole = true;
+                            break;
+                        case "-i":
+                        case "--show-console-io":
+                            showInOut = true;
+                            break;
+                        case "-e":
+                        case "--show-env":
+                            showEnv = true;
+                            break;
+                        case "-?":
+                        case "-h":
+                        case "--help":
+                            Console.WriteLine("Visit https://github.com/roschinsky/dotnet-all-about for more information.");
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                showNetwork = showFileSystem = showApp = showRuntime = showConsole = showInOut = showEnv = true;
+            }
+
+            // Run features
+            if (showRuntime) { ShowRuntimeInfo(); }
+            if (showApp) { ShowAppInfo(args!); }
+            if (showFileSystem) { ShowFileSystemInfo(); }
+            if (showNetwork) { ShowNetworkInfo(); }
+            if (showEnv) { ShowEnvironmentVars(); }
+            if (showConsole) { ShowConsoleInfo(); }
+            if (showInOut) { ShowConsoleIO(); }
+        }
+        catch (ArgumentException)
+        {
+            Console.WriteLine("Seems like you're trying to open a shell her? Please modify your arguments...");
         }
         catch (Exception ex)
         {
@@ -41,7 +105,7 @@ internal class Program
         Console.WriteLine("\n## NETWORK INFO");
         try
         {
-            NetworkInterface[] adapters  = NetworkInterface.GetAllNetworkInterfaces();
+            NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
             foreach (NetworkInterface adapter in adapters)
             {
                 IPInterfaceProperties adapterProperties = adapter.GetIPProperties();
@@ -49,7 +113,7 @@ internal class Program
                 if (dnsServers.Count > 0)
                 {
                     Console.WriteLine($"- {adapter.NetworkInterfaceType}: {adapter.Name} '{adapter.Description}'");
-                    if(adapter.GetIPProperties().UnicastAddresses.Count > 0)
+                    if (adapter.GetIPProperties().UnicastAddresses.Count > 0)
                     {
                         Console.WriteLine($"   - Address: {adapter.GetIPProperties().UnicastAddresses[0].Address}");
                     }
@@ -194,7 +258,7 @@ internal class Program
         try
         {
             Console.WriteLine($"- OSVersion: {Environment.OSVersion}\n" +
-                $"- Runtime ID: {RuntimeInformation.RuntimeIdentifier}\n" +  
+                $"- Runtime ID: {RuntimeInformation.RuntimeIdentifier}\n" +
                 $"- FrameworkDescription: {RuntimeInformation.FrameworkDescription}");
             Console.Write($"- IsOSPlatform: ");
             foreach (OSPlatform platform in new[] { OSPlatform.Windows, OSPlatform.Linux, OSPlatform.OSX, OSPlatform.FreeBSD })
