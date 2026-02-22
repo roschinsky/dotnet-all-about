@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /App
 
 # Copy everything
-COPY ./ ./
+COPY . ./
 # Restore and publish a release build
 RUN dotnet restore && \
     dotnet build -c Release -o out
