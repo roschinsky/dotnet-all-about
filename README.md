@@ -2,6 +2,8 @@
 
 A very simple console application that you'll use in your CLI, in a container, or elsewhere to gather all the information you'd like to know about your Dotnet assembly and the environment in which it is being executed.  
 
+![Execution of 'dotnet-all-about' showing runtime and filesystem details](./res/screenshot_rf.png)
+
 ## Features
 
 If command line parameters are specified, they are evaluated to select individual feature blocks for output.  
